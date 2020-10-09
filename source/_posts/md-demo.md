@@ -1,7 +1,7 @@
 ---
-title: new page
+title: md文件常用语法
 date: 2020-10-09 13:31:22
-tags: tag1tag2
+tags: tag
 ---
 #### 代码框
  `<p>这是单行代码</p>`
@@ -53,10 +53,13 @@ __字体加粗__
 ---
 
 #### 删除线
-~~我是~~删除线
+~~haha~~删除线
 
 #### 表格
 | 左对齐 | 右对齐 | 居中对齐 |
 | :-----| ----: | :----: |
 | 单元格 | 单元格 | 单元格 |
 | 单元格 | 单元格 | 单元格 |
+
+#### 图片
+![logo](https://img-blog.csdnimg.cn/20200212174735949.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ydWRvbi5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70)
