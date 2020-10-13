@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>service worker离线缓存 | 岳申远</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="service worker介绍service worker是浏览器的一个高级特性，本质是一个web worker，是独立于网页运行的脚本。 web worker这个api被造出来时，就是为了解放主线程。因为，浏览器中的JavaScript都是运行在单一个线程上，随着web业务变得越来越复杂，js中耗时间、耗资源的运算过程则会导致各种程度的性能问题。 而web worker由于独立于主线程，则可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="service worker离线缓存">
+<meta property="og:url" content="http://example.com/2020/10/12/service-worker/index.html">
+<meta property="og:site_name" content="岳申远">
+<meta property="og:description" content="service worker介绍service worker是浏览器的一个高级特性，本质是一个web worker，是独立于网页运行的脚本。 web worker这个api被造出来时，就是为了解放主线程。因为，浏览器中的JavaScript都是运行在单一个线程上，随着web业务变得越来越复杂，js中耗时间、耗资源的运算过程则会导致各种程度的性能问题。 而web worker由于独立于主线程，则可以">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-10-12T14:49:03.000Z">
+<meta property="article:modified_time" content="2020-10-13T12:25:48.517Z">
+<meta property="article:author" content="shenyuan.yue">
+<meta property="article:tag" content="缓存">
+<meta property="article:tag" content="serviceWorker">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="岳申远" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">岳申远</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-service-worker" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/12/service-worker/" class="article-date">
+  <time datetime="2020-10-12T14:49:03.000Z" itemprop="datePublished">2020-10-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      service worker离线缓存
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="service-worker介绍"><a href="#service-worker介绍" class="headerlink" title="service worker介绍"></a>service worker介绍</h4><p>service worker是浏览器的一个高级特性，本质是一个web worker，是独立于网页运行的脚本。 web worker这个api被造出来时，就是为了解放主线程。因为，浏览器中的JavaScript都是运行在单一个线程上，随着web业务变得越来越复杂，js中耗时间、耗资源的运算过程则会导致各种程度的性能问题。 而web worker由于独立于主线程，则可以将一些复杂的逻辑交由它来去做，完成后再通过postMessage的方法告诉主线程。 service worker则是web worker的升级版本，相较于后者，前者拥有了持久离线缓存的能力。</p>
+<p>sw是由事件驱动的,具有生命周期，可以拦截处理页面的所有网络请求(fetch)，可以访问cache和indexDB，支持推送，并且可以让开发者自己控制管理缓存的内容以及版本，为离线弱网环境下的 web 的运行提供了可能。</p>
+<h4 id="service-worker的特点"><a href="#service-worker的特点" class="headerlink" title="service worker的特点"></a>service worker的特点</h4><ul>
+<li>独立于主线程、在后台运行的脚本</li>
+<li>被install后就永远存在，除非被手动卸载</li>
+<li>可编程拦截全站请求和返回，缓存文件。可以通过fetch这个api，来拦截网络和处理网络请求，再配合cacheStorage来实现web页面的缓存管理以及与前端postMessage通信。</li>
+<li>不能直接操纵dom：因为sw是个独立于网页运行的脚本，所以在它的运行环境里，不能访问窗口的window以及dom。</li>
+<li>必须是https的协议才能使用。不过在本地调试时，在<a target="_blank" rel="noopener" href="http://localhost/">http://localhost</a> 和<a target="_blank" rel="noopener" href="http://127.0.0.1/">http://127.0.0.1</a> 下可以跑起来的。</li>
+<li>异步实现，sw大量使用promise，无法使用XHR和localStorage</li>
+<li>可以接收server端消息push</li>
+</ul>
+<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><ul>
+<li><p><strong>(安装)installing</strong>：发生在service worker注册之后，表示开始安装。在这个过程会触发install事件回调指定一些静态资源进行离线缓存。</p>
+</li>
+<li><p><strong>(安装后)installed</strong>：完成了安装，进入了waiting状态，等待其他的Service worker被关闭（在install的事件回调中，可以调用skipWaiting方法来跳过waiting这个阶段）</p>
+</li>
+<li><p><strong>(激活)activating</strong>： 该状态下没有被其他的 Service Worker 控制的客户端，允许当前的 worker 完成安装，并且清除了其他的 worker 以及关联缓存的旧缓存资源，等待新的 Service Worker 线程被激活。</p>
+</li>
+<li><p><strong>(激活后)activated</strong>： 在这个状态会处理activate事件回调，并提供处理功能性事件：fetch、sync、push。（在acitive的事件回调中，可以调用self.clients.claim()）</p>
+</li>
+<li><p><strong>(废弃)redundant</strong>：废弃状态，这个状态表示一个sw的使命周期结束</p>
+</li>
+</ul>
+<h4 id="webpack中的应用"><a href="#webpack中的应用" class="headerlink" title="webpack中的应用"></a>webpack中的应用</h4><p>webpack中可以通过使用workbox-webpack-plugin、sw-register-webpack-plugin、offline-plugin等插件使用service worker。</p>
+<h4 id="简单实现"><a href="#简单实现" class="headerlink" title="简单实现"></a>简单实现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**   注册    **&#x2F;</span><br><span class="line">&#x2F;&#x2F;在页面代码里面监听onload事件，使用sw的配置文件注册一个service worker</span><br><span class="line">&#x2F;&#x2F; 当前环境是否支持service woker</span><br><span class="line">if(&#39;serviceWorker&#39; in navigator) &#123;</span><br><span class="line">	&#x2F;&#x2F; 尽量避免页面打开时立刻加载，挤占主线程的带宽、cpu等资源</span><br><span class="line">	window.addEventListener(&#39;load&#39;, function () &#123;</span><br><span class="line">		&#x2F;** sw文件的作用域不同，监听fetch请求也是不一样。假设sw文件放在&#x2F;sw&#x2F;sw.js路径的话，</span><br><span class="line">		*	那么sw就只能监听&#x2F;sw&#x2F;*下面的请求</span><br><span class="line">		*&#x2F;</span><br><span class="line">		navigator.serviceWorker.register(&#39;.js&#39;)</span><br><span class="line">		.then(function (registration) &#123;</span><br><span class="line">			&#x2F;&#x2F; 注册成功</span><br><span class="line">			console.log(&#39;registration successful with scope: &#39;, registration.scope);</span><br><span class="line">		&#125;)</span><br><span class="line">		.catch(function (err) &#123;</span><br><span class="line">			&#x2F;&#x2F; 注册失败</span><br><span class="line">			console.log(&#39;ServiceWorker registration failed: &#39;, err);</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**   安装和激活    **&#x2F;</span><br><span class="line">const CACHE_NAME &#x3D; &quot;fed-cache&quot;;</span><br><span class="line">&#x2F;&#x2F; 安装服务线程</span><br><span class="line">this.addEventListener(&quot;install&quot;, function(event) &#123;</span><br><span class="line">	console.log(&quot;install service worker&quot;);</span><br><span class="line">	&#x2F;&#x2F; 创建和打开一个缓存库</span><br><span class="line">	caches.open(CACHE_NAME);</span><br><span class="line">	&#x2F;&#x2F; 需要缓存的资源，</span><br><span class="line">	let cacheResources &#x3D; [&quot;index.css&quot;, &quot;common.js&quot;];</span><br><span class="line">	event.waitUntil(</span><br><span class="line">		&#x2F;&#x2F; 请求资源并添加到缓存里面去，有一个失败就会安装失败</span><br><span class="line">		caches.open(CACHE_NAME)</span><br><span class="line">		.then(cache &#x3D;&gt; &#123;</span><br><span class="line">			cache.addAll(cacheResources);</span><br><span class="line">		&#125;)</span><br><span class="line">		.then(function() &#123;</span><br><span class="line">			&#x2F;&#x2F; 注册成功跳过等待，酌情处理</span><br><span class="line">			return self.skipWaiting()</span><br><span class="line">		&#125;)</span><br><span class="line">	);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 激活回调,删除旧版本的缓存</span><br><span class="line">this.addEventListener(&quot;activate&quot;, function(event) &#123;</span><br><span class="line">	console.log(&quot;service worker is active&quot;);</span><br><span class="line">	event.waitUntil(</span><br><span class="line">		caches</span><br><span class="line">		.keys()</span><br><span class="line">		.then(cacheNames &#x3D;&gt; &#123;</span><br><span class="line">			return cacheNames.filter(cacheName &#x3D;&gt; cacheStorageKey !&#x3D;&#x3D; cacheName);</span><br><span class="line">		&#125;)</span><br><span class="line">		.then(cachesToDelete &#x3D;&gt; &#123;</span><br><span class="line">			return Promise.all(</span><br><span class="line">				cachesToDelete.map(cacheToDelete &#x3D;&gt; &#123;</span><br><span class="line">					return caches.delete(cacheToDelete);</span><br><span class="line">				&#125;)</span><br><span class="line">			);</span><br><span class="line">		&#125;)</span><br><span class="line">		.then(() &#x3D;&gt; &#123;</span><br><span class="line">			console.log(&quot;Clients claims.&quot;);</span><br><span class="line">			&#x2F;&#x2F; 立即接管所有页面，酌情处理</span><br><span class="line">			&#x2F;&#x2F; 会导致新的sw接管旧的页面，同时旧版本的缓存已被清空</span><br><span class="line">			self.clients.claim();</span><br><span class="line">		&#125;)</span><br><span class="line">	);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 发起请求时去根据uri去匹配缓存，无法命中缓存则发起请求</span><br><span class="line">self.addEventListener(&quot;fetch&quot;, function(e) &#123;</span><br><span class="line">e.respondWith(</span><br><span class="line">	caches.match(e.request).then(function(response) &#123;</span><br><span class="line">		&#x2F;&#x2F; 可以在这里对请求进行一系列的判断，比如GET&#x2F;POST请求，图片&#x2F;HTML资源，URL等</span><br><span class="line">		return response || fetch(e.request);</span><br><span class="line">	&#125;)</span><br><span class="line">);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 监控push消息</span><br><span class="line">self.addEventListener(&quot;message&quot;, event &#x3D;&gt; &#123;</span><br><span class="line">if (event.data &#x3D;&#x3D;&#x3D; &quot;skipWaiting&quot;) &#123;</span><br><span class="line">	console.log(&quot;Skip waiting!&quot;);</span><br><span class="line">	self.skipWaiting();</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/10/12/service-worker/" data-id="ckg7xvkz000072yw590bc1jl7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/serviceWorker/" rel="tag">serviceWorker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%93%E5%AD%98/" rel="tag">缓存</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/10/13/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/10/10/browser-cache/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">浏览器缓存策略</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/UBT/" rel="tag">UBT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/md/" rel="tag">md</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nrm/" rel="tag">nrm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/serviceWorker/" rel="tag">serviceWorker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%8B%E7%82%B9/" rel="tag">埋点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" rel="tag">浏览器缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98/" rel="tag">缓存</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/UBT/" style="font-size: 10px;">UBT</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/npm/" style="font-size: 20px;">npm</a> <a href="/tags/nrm/" style="font-size: 10px;">nrm</a> <a href="/tags/serviceWorker/" style="font-size: 10px;">serviceWorker</a> <a href="/tags/%E5%9F%8B%E7%82%B9/" style="font-size: 10px;">埋点</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" style="font-size: 10px;">浏览器缓存</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 20px;">缓存</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/10/13/ubt/">前端埋点监控系统搭建</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/12/service-worker/">service worker离线缓存</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/10/browser-cache/">浏览器缓存策略</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/10/nrm-install/">nrm安装与配置</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 shenyuan.yue<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
