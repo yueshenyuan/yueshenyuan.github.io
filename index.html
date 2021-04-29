@@ -64,6 +64,99 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-npm-command" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/04/29/npm-command/" class="article-date">
+  <time datetime="2021-04-29T13:49:03.000Z" itemprop="datePublished">2021-04-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/29/npm-command/">npm常用命令介绍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="–unsafe-perm"><a href="#–unsafe-perm" class="headerlink" title="-–unsafe-perm"></a>-–unsafe-perm</h4><p>snpm 出于安全考虑不支持以 root 用户运行，即使你用 root 用户身份运行了，npm 会自动转成一个叫 nobody 的用户来运行，而这个用户几乎没有任何权限。这样的话如果脚本里有一些需要权限的操作，比如写文件（尤其是写 /root/.node-gyp），就会崩掉。</p>
+<p>为了避免这种情况，要么按照 npm 的规矩来，专门建一个用于运行 npm 的高权限用户；要么加 –unsafe-perm 参数，这样就不会切换到 nobody 上，运行时是哪个用户就是哪个用户，即使是 root。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -–unsafe-perm</span><br></pre></td></tr></table></figure>
+
+<h4 id="–force-或-f"><a href="#–force-或-f" class="headerlink" title="–force 或 -f"></a>–force 或 -f</h4><p>一个模块不管是否安装过，npm都要强制重新安装，可以使用-f或–force参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install &lt;packageName&gt; --force</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/04/29/npm-command/" data-id="cko2h16cj000458r12jvp4z88" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%91%BD%E4%BB%A4/" rel="tag">命令</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/04/29/hello-world/" class="article-date">
+  <time datetime="2021-04-29T05:53:04.513Z" itemprop="datePublished">2021-04-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/29/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/04/29/hello-world/" data-id="cko2h16cg000158r1591lan1f" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-nvm" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/10/22/nvm/" class="article-date">
@@ -114,60 +207,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/22/nvm/" data-id="ckgkqz69o00072rr7daey4tcz" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/10/22/nvm/" data-id="cko2h16cm000858r1esh51cu0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NVM/" rel="tag">NVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node/" rel="tag">Node</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/10/22/hello-world/" class="article-date">
-  <time datetime="2020-10-22T11:33:39.672Z" itemprop="datePublished">2020-10-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/22/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/22/hello-world/" data-id="ckgkqz69i00012rr72jrq1z2r" class="article-share-link">Share</a>
-      
-      
     </footer>
   </div>
   
@@ -202,7 +246,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/13/ubt/" data-id="ckgkqz69q000a2rr74ypb9ftt" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/10/13/ubt/" data-id="cko2h16co000c58r1cke32dvy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UBT/" rel="tag">UBT</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%8B%E7%82%B9/" rel="tag">埋点</a></li></ul>
@@ -266,7 +310,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/12/service-worker/" data-id="ckgkqz69p00082rr74znwg6nk" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/10/12/service-worker/" data-id="cko2h16cn000a58r1a0hj91w8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/serviceWorker/" rel="tag">serviceWorker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%93%E5%AD%98/" rel="tag">缓存</a></li></ul>
@@ -351,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/10/browser-cache/" data-id="ckgkqz69d00002rr7719w1yyk" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/10/10/browser-cache/" data-id="cko2h16cb000058r1449yg73y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" rel="tag">浏览器缓存</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%93%E5%AD%98/" rel="tag">缓存</a></li></ul>
@@ -409,7 +453,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/10/nrm-install/" data-id="ckgkqz69n00052rr7d48q5jwm" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/10/10/nrm-install/" data-id="cko2h16cl000758r1e4n1301q" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nrm/" rel="tag">nrm</a></li></ul>
@@ -453,7 +497,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/10/npm-link/" data-id="ckgkqz69m00042rr7gz2jdive" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/10/10/npm-link/" data-id="cko2h16ck000558r1homhctrx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/" rel="tag">npm</a></li></ul>
@@ -541,7 +585,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/09/md-demo/" data-id="ckgkqz69l00032rr7f0fm2z0e" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/10/09/md-demo/" data-id="cko2h16cj000358r14cfch1w0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/md/" rel="tag">md</a></li></ul>
@@ -566,7 +610,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/NVM/" rel="tag">NVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UBT/" rel="tag">UBT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/md/" rel="tag">md</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nrm/" rel="tag">nrm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/serviceWorker/" rel="tag">serviceWorker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%8B%E7%82%B9/" rel="tag">埋点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" rel="tag">浏览器缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98/" rel="tag">缓存</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/NVM/" rel="tag">NVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/" rel="tag">Node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UBT/" rel="tag">UBT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/md/" rel="tag">md</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nrm/" rel="tag">nrm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/serviceWorker/" rel="tag">serviceWorker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%91%BD%E4%BB%A4/" rel="tag">命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%8B%E7%82%B9/" rel="tag">埋点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" rel="tag">浏览器缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98/" rel="tag">缓存</a></li></ul>
     </div>
   </div>
 
@@ -576,7 +620,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/NVM/" style="font-size: 10px;">NVM</a> <a href="/tags/Node/" style="font-size: 10px;">Node</a> <a href="/tags/UBT/" style="font-size: 10px;">UBT</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/npm/" style="font-size: 20px;">npm</a> <a href="/tags/nrm/" style="font-size: 10px;">nrm</a> <a href="/tags/serviceWorker/" style="font-size: 10px;">serviceWorker</a> <a href="/tags/%E5%9F%8B%E7%82%B9/" style="font-size: 10px;">埋点</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" style="font-size: 10px;">浏览器缓存</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 20px;">缓存</a>
+      <a href="/tags/NVM/" style="font-size: 10px;">NVM</a> <a href="/tags/Node/" style="font-size: 10px;">Node</a> <a href="/tags/UBT/" style="font-size: 10px;">UBT</a> <a href="/tags/md/" style="font-size: 10px;">md</a> <a href="/tags/npm/" style="font-size: 20px;">npm</a> <a href="/tags/nrm/" style="font-size: 10px;">nrm</a> <a href="/tags/serviceWorker/" style="font-size: 10px;">serviceWorker</a> <a href="/tags/%E5%91%BD%E4%BB%A4/" style="font-size: 10px;">命令</a> <a href="/tags/%E5%9F%8B%E7%82%B9/" style="font-size: 10px;">埋点</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" style="font-size: 10px;">浏览器缓存</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 15px;">缓存</a>
     </div>
   </div>
 
@@ -585,7 +629,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li></ul>
     </div>
   </div>
 
@@ -598,11 +642,15 @@
       <ul>
         
           <li>
-            <a href="/2020/10/22/nvm/">Mac下安装NVM及常用命令</a>
+            <a href="/2021/04/29/npm-command/">npm常用命令介绍</a>
           </li>
         
           <li>
-            <a href="/2020/10/22/hello-world/">Hello World</a>
+            <a href="/2021/04/29/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/22/nvm/">Mac下安装NVM及常用命令</a>
           </li>
         
           <li>
@@ -611,10 +659,6 @@
         
           <li>
             <a href="/2020/10/12/service-worker/">service worker离线缓存</a>
-          </li>
-        
-          <li>
-            <a href="/2020/10/10/browser-cache/">浏览器缓存策略</a>
           </li>
         
       </ul>
@@ -629,7 +673,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2020 shenyuan.yue<br>
+      &copy; 2021 shenyuan.yue<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
