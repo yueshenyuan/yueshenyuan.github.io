@@ -7,15 +7,15 @@
   
   <title>npm常用命令介绍 | 岳申远</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="-–unsafe-permsnpm 出于安全考虑不支持以 root 用户运行，即使你用 root 用户身份运行了，npm 会自动转成一个叫 nobody 的用户来运行，而这个用户几乎没有任何权限。这样的话如果脚本里有一些需要权限的操作，比如写文件（尤其是写 &#x2F;root&#x2F;.node-gyp），就会崩掉。 为了避免这种情况，要么按照 npm 的规矩来，专门建一个用于运行 npm 的高权限用户；要么加">
+  <meta name="description" content="-S即–save（保存）包名会被注册在package.json的dependencies里面，在生产环境下这个包的依赖依然存在 -D即–save-dev（生产）包名会被注册在package.json的devDependencies里面，仅在开发环境下存在的包用-D，如babel，sass-loader这些解析器 -g全局安装 -–unsafe-permsnpm 出于安全考虑不支持以 root 用户">
 <meta property="og:type" content="article">
 <meta property="og:title" content="npm常用命令介绍">
 <meta property="og:url" content="http://example.com/2021/04/29/npm-command/index.html">
 <meta property="og:site_name" content="岳申远">
-<meta property="og:description" content="-–unsafe-permsnpm 出于安全考虑不支持以 root 用户运行，即使你用 root 用户身份运行了，npm 会自动转成一个叫 nobody 的用户来运行，而这个用户几乎没有任何权限。这样的话如果脚本里有一些需要权限的操作，比如写文件（尤其是写 &#x2F;root&#x2F;.node-gyp），就会崩掉。 为了避免这种情况，要么按照 npm 的规矩来，专门建一个用于运行 npm 的高权限用户；要么加">
+<meta property="og:description" content="-S即–save（保存）包名会被注册在package.json的dependencies里面，在生产环境下这个包的依赖依然存在 -D即–save-dev（生产）包名会被注册在package.json的devDependencies里面，仅在开发环境下存在的包用-D，如babel，sass-loader这些解析器 -g全局安装 -–unsafe-permsnpm 出于安全考虑不支持以 root 用户">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-04-29T13:49:03.000Z">
-<meta property="article:modified_time" content="2021-04-29T05:53:04.513Z">
+<meta property="article:modified_time" content="2021-04-29T06:20:17.376Z">
 <meta property="article:author" content="shenyuan.yue">
 <meta property="article:tag" content="npm">
 <meta property="article:tag" content="命令">
@@ -90,17 +90,25 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="–unsafe-perm"><a href="#–unsafe-perm" class="headerlink" title="-–unsafe-perm"></a>-–unsafe-perm</h4><p>snpm 出于安全考虑不支持以 root 用户运行，即使你用 root 用户身份运行了，npm 会自动转成一个叫 nobody 的用户来运行，而这个用户几乎没有任何权限。这样的话如果脚本里有一些需要权限的操作，比如写文件（尤其是写 /root/.node-gyp），就会崩掉。</p>
+        <h4 id="S"><a href="#S" class="headerlink" title="-S"></a>-S</h4><p>即–save（保存）<br>包名会被注册在package.json的dependencies里面，在生产环境下这个包的依赖依然存在</p>
+<h4 id="D"><a href="#D" class="headerlink" title="-D"></a>-D</h4><p>即–save-dev（生产）<br>包名会被注册在package.json的devDependencies里面，仅在开发环境下存在的包用-D，如babel，sass-loader这些解析器</p>
+<h4 id="g"><a href="#g" class="headerlink" title="-g"></a>-g</h4><p>全局安装</p>
+<h4 id="–unsafe-perm"><a href="#–unsafe-perm" class="headerlink" title="-–unsafe-perm"></a>-–unsafe-perm</h4><p>snpm 出于安全考虑不支持以 root 用户运行，即使你用 root 用户身份运行了，npm 会自动转成一个叫 nobody 的用户来运行，而这个用户几乎没有任何权限。这样的话如果脚本里有一些需要权限的操作，比如写文件（尤其是写 /root/.node-gyp），就会崩掉。</p>
 <p>为了避免这种情况，要么按照 npm 的规矩来，专门建一个用于运行 npm 的高权限用户；要么加 –unsafe-perm 参数，这样就不会切换到 nobody 上，运行时是哪个用户就是哪个用户，即使是 root。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -–unsafe-perm</span><br></pre></td></tr></table></figure>
 
 <h4 id="–force-或-f"><a href="#–force-或-f" class="headerlink" title="–force 或 -f"></a>–force 或 -f</h4><p>一个模块不管是否安装过，npm都要强制重新安装，可以使用-f或–force参数</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install &lt;packageName&gt; --force</span><br></pre></td></tr></table></figure>
 
+<h4 id="update"><a href="#update" class="headerlink" title="update"></a>update</h4><p>update会先到远程仓库查询最新版本，然后查询本地版本。如果本地版本不存在，或者远程版本较新，就会安装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm update &lt;packageName&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="view"><a href="#view" class="headerlink" title="view"></a>view</h4><p>查看注册表信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm view &lt;packageName&gt; version &#x2F;&#x2F;查询模块最新版本</span><br><span class="line">npm view &lt;packageName&gt; versions &#x2F;&#x2F;查询模块所有版本</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/29/npm-command/" data-id="cko2h16cj000458r12jvp4z88" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/04/29/npm-command/" data-id="cko2i06cn00042dqghye4e99p" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%91%BD%E4%BB%A4/" rel="tag">命令</a></li></ul>
